@@ -14,23 +14,60 @@ namespace MvcMorning.Controllers
         {
             return View();
         }
-        [NonAction]
+        //[NonAction]
         public ActionResult DetailPerson()
         {
             Person person = new Person();
             person.Id = 1;
             person.Name = "Ismaciil Ahmed";
             person.Addres = "Goljano";
-            return View("DetailPerson",person);
+            return View("DetailPerson", person);
         }
+
+
+        [ActionName("Persons")]
+        //[NonAction]
 
         public ActionResult ListPersons()
         {
 
-            var listPerson = Person.GetListPerson();
-            return View(listPerson);
+            var listPerson = new List<Person>();
+            return View("ListPersons", listPerson);
         }
 
-      
+        [OutputCache(Duration =20)]
+        public string GetDate()
+        {
+            return DateTime.Now.ToString();
+        }
+
+        public ActionResult CreatePerson()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreatePerson(Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                Person.CreatePerson(person);
+                TempData["SuccesfullySaved"] = "Succesfully Saved";
+                ModelState.Clear();
+            }
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
