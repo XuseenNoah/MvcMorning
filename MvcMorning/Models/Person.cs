@@ -54,6 +54,29 @@ namespace MvcMorning.Models
 
         }
 
+        public static Person GetPerson(string name)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT *FROM Persons WHERE Name=@Name";
+                cmd.Parameters.AddWithValue("@Name", name);
+                conn.Open();
+                var reader = cmd.ExecuteReader();
+                Person person = null;
+                if (reader.Read())
+                {
+                    person = new Person();
+                    person.Name = reader["Name"] as string;
+                }
+                return person;
+
+
+            }
+
+
+        }
+
 
 
     }

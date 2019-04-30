@@ -59,6 +59,32 @@ namespace MvcMorning.Controllers
         }
 
 
+        public ActionResult CreatePersons()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreatePersons(Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                var getPerson = Person.GetPerson(person.Name);
+                if (getPerson == null)
+                {
+                    Person.CreatePerson(person);
+                    TempData["SuccesfullySaved"] = "S";
+                    ModelState.Clear();
+                }
+                else
+                {
+                    TempData["GetPerson"] = "sdf";
+                }
+            }
+            return View();
+        }
+
+
 
 
 
