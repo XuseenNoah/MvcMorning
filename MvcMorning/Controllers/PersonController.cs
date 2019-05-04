@@ -25,15 +25,15 @@ namespace MvcMorning.Controllers
         }
 
 
-        [ActionName("Persons")]
-        //[NonAction]
+        //[ActionName("Persons")]
+        ////[NonAction]
 
-        public ActionResult ListPersons()
-        {
+        //public ActionResult ListPersons()
+        //{
 
-            var listPerson = new List<Person>();
-            return View("ListPersons", listPerson);
-        }
+        //    var listPerson = new List<Person>();
+        //    return View("ListPersons", listPerson);
+        //}
 
         [OutputCache(Duration =20)]
         public string GetDate()
@@ -75,6 +75,8 @@ namespace MvcMorning.Controllers
                     Person.CreatePerson(person);
                     TempData["SuccesfullySaved"] = "S";
                     ModelState.Clear();
+                    return RedirectToAction("ListPersons");
+                    
                 }
                 else
                 {
@@ -83,6 +85,15 @@ namespace MvcMorning.Controllers
             }
             return View();
         }
+
+        public ActionResult ListPersons()
+        {
+            var listPersons = Person.GetListPerson();
+            return View(listPersons);
+        }
+
+
+
 
 
 

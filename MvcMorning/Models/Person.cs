@@ -19,20 +19,30 @@ namespace MvcMorning.Models
         [Required]
         public string Phone { get; set; }
 
+        public DateTime Date { get; set; }
 
         public static List<Person> GetListPerson()
         {
-            return new List<Person> {
-                new Person{Id=1,Name="Ahmed",Addres="Goljano"},
-                new Person{Id=1,Name="Ahmed",Addres="Goljano"},
-                new Person{Id=1,Name="Ahmed",Addres="Goljano"},
-                new Person{Id=1,Name="Ahmed",Addres="Goljano"},
-                new Person{Id=1,Name="Ahmed",Addres="Goljano"},
-                new Person{Id=1,Name="Ahmed",Addres="Goljano"},
-                new Person{Id=1,Name="Ahmed",Addres="Goljano"},
-                new Person{Id=1,Name="Ahmed",Addres="Goljano"},
-                new Person{Id=1,Name="Ahmed",Addres="Goljano"},
-            };
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT *FROM Persons";
+                conn.Open();
+                var reader = cmd.ExecuteReader();
+                var listPerson = new List<Person>();
+                while (reader.Read())
+                {
+                    var person = new Person();
+                    person.Id =(int) reader["Id"];
+                    person.Name = reader["Name"]as string;
+                    person.Addres =reader["Addres"]as string;
+                    person.Phone = reader["Phone"]as string;
+                    person.Date = (DateTime)reader["DAte"];
+                    listPerson.Add(person);
+                }
+                return listPerson;
+            }
+
         }
 
 

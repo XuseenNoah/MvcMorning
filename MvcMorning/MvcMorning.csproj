@@ -171,9 +171,9 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Person\DetailPerson.cshtml" />
-    <Content Include="Views\Person\ListPersons.cshtml" />
     <Content Include="Views\Person\CreatePerson.cshtml" />
     <Content Include="Views\Person\CreatePersons.cshtml" />
+    <Content Include="Views\Person\ListPersons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
