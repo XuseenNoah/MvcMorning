@@ -93,6 +93,21 @@ namespace MvcMorning.Controllers
         }
 
 
+        public ActionResult DeletePerson(string id)
+        {
+            var getPerson = Person.GetPersonDetail(id);
+            return View(getPerson);
+        }
+
+        [HttpPost]
+        public ActionResult DeletePerson(Person person)
+        {
+            Person.DeletePerson(person.Id);
+            TempData["SuccesfullyDeleted"] = "Succesfully Deleted";
+            return RedirectToAction("ListPersons");
+        }
+
+
 
 
 

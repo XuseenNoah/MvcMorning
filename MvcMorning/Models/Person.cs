@@ -87,6 +87,46 @@ namespace MvcMorning.Models
 
         }
 
+        internal static void DeletePerson(int id)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"DELETE FROM Persons WHERE Id=@id";
+                cmd.Parameters.AddWithValue("@id", id);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+
+            }
+        }
+
+        public static Person GetPersonDetail(string id)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT *FROM Persons WHERE Id=@Id";
+                cmd.Parameters.AddWithValue("@Id", id);
+                conn.Open();
+                var reader = cmd.ExecuteReader();
+                Person person = null;
+                if (reader.Read())
+                {
+                    person = new Person();
+                    person.Id = (int)reader["Id"];
+                    person.Name = reader["Name"] as string;
+                    person.Addres = reader["Addres"] as string;
+                    person.Phone = reader["Phone"] as string;
+                    person.Date = (DateTime)reader["Date"];
+                }
+                return person;
+
+
+            }
+
+
+        }
+
 
 
     }
