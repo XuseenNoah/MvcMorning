@@ -75,7 +75,7 @@ namespace MvcMorning.Controllers
                     Person.CreatePerson(person);
                     TempData["SuccesfullySaved"] = "S";
                     ModelState.Clear();
-                    return RedirectToAction("ListPersons");
+                    return RedirectToAction("ListPersons",new { name = person.Name });
                     
                 }
                 else
@@ -105,6 +105,26 @@ namespace MvcMorning.Controllers
             Person.DeletePerson(person.Id);
             TempData["SuccesfullyDeleted"] = "Succesfully Deleted";
             return RedirectToAction("ListPersons");
+        }
+
+
+        public ActionResult UpdatePerson(string id)
+        {
+            var getPerson = Person.GetPersonDetail(id);
+            return View(getPerson);
+        }
+
+        [HttpPost]
+        public ActionResult UpdatePerson(Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                Person.UpdatePerson(person);
+                TempData["SuccesfullyUpdated"] = "s";
+                ModelState.Clear();
+                return RedirectToAction("ListPersons");
+            }
+            return View(person);
         }
 
 

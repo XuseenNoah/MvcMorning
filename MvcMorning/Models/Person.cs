@@ -27,6 +27,7 @@ namespace MvcMorning.Models
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = @"SELECT *FROM Persons";
+
                 conn.Open();
                 var reader = cmd.ExecuteReader();
                 var listPerson = new List<Person>();
@@ -97,6 +98,21 @@ namespace MvcMorning.Models
                 conn.Open();
                 cmd.ExecuteNonQuery();
 
+            }
+        }
+
+        internal static void UpdatePerson(Person person)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"UPDATE Persons SET Name=@Name,Addres=@Addres,Phone=@Phone WHERE Id=@Id";
+                cmd.Parameters.AddWithValue("@Id", person.Id);
+                cmd.Parameters.AddWithValue("@Name", person.Name);
+                cmd.Parameters.AddWithValue("@Addres", person.Addres);
+                cmd.Parameters.AddWithValue("@Phone", person.Phone);
+                conn.Open();
+                cmd.ExecuteNonQuery();
             }
         }
 

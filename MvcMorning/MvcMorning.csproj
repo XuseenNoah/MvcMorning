@@ -175,6 +175,7 @@
     <Content Include="Views\Person\CreatePersons.cshtml" />
     <Content Include="Views\Person\ListPersons.cshtml" />
     <Content Include="Views\Person\DeletePerson.cshtml" />
+    <Content Include="Views\Person\UpdatePerson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
