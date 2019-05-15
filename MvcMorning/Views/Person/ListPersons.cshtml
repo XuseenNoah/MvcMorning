@@ -25,6 +25,20 @@
         </div>
     }
 </div>
+<form method="get">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="personName" placeholder="Search Name" @*value="@Request.QueryString["personName"]"*@ />
+            </div>
+
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-primary" ><span class="glyphicon glyphicon-search"></span> Search</button>
+            </div>
+        </div>
+    </div>
+</form>
+<br />
     <p>
         @Html.ActionLink("Create New", "CreatePersons",null,new { @class = "btn btn-primary btn-xs" })
     </p>

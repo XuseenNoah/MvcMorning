@@ -11,22 +11,26 @@ namespace MvcMorning.Models
     {
 
         public static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["Db"].ConnectionString;
+        
         public int Id { get; set; }
-        [Required,StringLength(20)]
+        [Required,StringLength(10)]
         public string Name { get; set; }
-        [Required]
+        [Required,EmailAddress,Display(Name ="Email Addres")]
         public string Addres { get; set; }
-        [Required]
+        [Required,MaxLength(10),MinLength(5)]
         public string Phone { get; set; }
+        [Range(15,40)]
+        public int Age { get; set; }
 
         public DateTime Date { get; set; }
 
-        public static List<Person> GetListPerson()
+        public static List<Person> GetListPerson(string personName)
         {
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = conn.CreateCommand())
             {
-                cmd.CommandText = @"SELECT *FROM Persons";
+                cmd.CommandText = @"SELECT *FROM Persons WHERE Name LIKE @Name";
+                cmd.Parameters.AddWithValue("@Name", personName+"%%");
 
                 conn.Open();
                 var reader = cmd.ExecuteReader();
@@ -88,6 +92,30 @@ namespace MvcMorning.Models
 
         }
 
+        internal static object GetPersonDetail(string id)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT *FROM Persons WHERE Id=@id";
+                cmd.Parameters.AddWithValue("@id", id);
+                conn.Open();
+                var reader = cmd.ExecuteReader();
+                Person person=null;
+                if (reader.Read())
+                {
+                    person = new Person();
+                    person.Id = (int)reader["Id"];
+                    person.Name = reader["Name"] as string;
+                    person.Addres = reader["Addres"] as string;
+                    person.Phone = reader["Phone"] as string;
+                    
+                }
+                return person;
+
+            }
+        }
+
         internal static void DeletePerson(int id)
         {
             using (var conn = new SqlConnection(connectionString))
@@ -116,32 +144,10 @@ namespace MvcMorning.Models
             }
         }
 
-        public static Person GetPersonDetail(string id)
-        {
-            using (var conn = new SqlConnection(connectionString))
-            using (var cmd = conn.CreateCommand())
-            {
-                cmd.CommandText = @"SELECT *FROM Persons WHERE Id=@Id";
-                cmd.Parameters.AddWithValue("@Id", id);
-                conn.Open();
-                var reader = cmd.ExecuteReader();
-                Person person = null;
-                if (reader.Read())
-                {
-                    person = new Person();
-                    person.Id = (int)reader["Id"];
-                    person.Name = reader["Name"] as string;
-                    person.Addres = reader["Addres"] as string;
-                    person.Phone = reader["Phone"] as string;
-                    person.Date = (DateTime)reader["Date"];
-                }
-                return person;
+       
 
 
-            }
-
-
-        }
+        
 
 
 

@@ -86,9 +86,9 @@ namespace MvcMorning.Controllers
             return View();
         }
 
-        public ActionResult ListPersons()
+        public ActionResult ListPersons(string personName)
         {
-            var listPersons = Person.GetListPerson();
+            var listPersons = Person.GetListPerson(personName);
             return View(listPersons);
         }
 
@@ -99,13 +99,7 @@ namespace MvcMorning.Controllers
             return View(getPerson);
         }
 
-        [HttpPost]
-        public ActionResult DeletePerson(Person person)
-        {
-            Person.DeletePerson(person.Id);
-            TempData["SuccesfullyDeleted"] = "Succesfully Deleted";
-            return RedirectToAction("ListPersons");
-        }
+       
 
 
         public ActionResult UpdatePerson(string id)
