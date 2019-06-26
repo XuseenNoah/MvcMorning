@@ -26,7 +26,13 @@
                     <li>@Html.ActionLink("Person Detail", "DetailPerson", "Person")</li>
                     <li>@Html.ActionLink("List Person", "ListPersons", "Person")</li>
                     <li>@Html.ActionLink("Create Person", "CreatePersons", "Person")</li>
-                </ul>
+                    <li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                        <li>@Html.ActionLink("Logout", "Logout", "Authenticate")</li>
+
+                    }
+                    </ul>
             </div>
         </div>
     </div>

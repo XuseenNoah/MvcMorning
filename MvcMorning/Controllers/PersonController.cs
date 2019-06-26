@@ -41,22 +41,22 @@ namespace MvcMorning.Controllers
             return DateTime.Now.ToString();
         }
 
-        public ActionResult CreatePerson()
-        {
-            return View();
-        }
+        //public ActionResult CreatePerson()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult CreatePerson(Person person)
-        {
-            if (ModelState.IsValid)
-            {
-                Person.CreatePerson(person);
-                TempData["SuccesfullySaved"] = "Succesfully Saved";
-                ModelState.Clear();
-            }
-            return View();
-        }
+        //[HttpPost]
+        //public ActionResult CreatePerson(Person person)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        Person.CreatePerson(person);
+        //        TempData["SuccesfullySaved"] = "Succesfully Saved";
+        //        ModelState.Clear();
+        //    }
+        //    return View();
+        //}
 
 
         public ActionResult CreatePersons()
@@ -86,17 +86,47 @@ namespace MvcMorning.Controllers
             return View();
         }
 
-        public ActionResult ListPersons(string personName)
+        public ActionResult ListPersons(string personName,string phone)
         {
-            var listPersons = Person.GetListPerson(personName);
+            var listPersons = Person.GetListPerson(personName,phone);
             return View(listPersons);
         }
 
+        public ActionResult GetImage(string id)
+        {
+            var getImage = Person.GetImage(id);
+            return File(getImage, "Image/jpg");
+        }
+
+
+        //public ActionResult DeletePerson(string id)
+        //{
+        //    var getPerson = Person.GetPersonDetail(id);
+        //    return View(getPerson);
+        //}
+
+        //[HttpPost]
+        //public ActionResult DeletePerson(Person person)
+        //{
+        //    Person.DeletePerson(person.Id);
+        //    TempData["SuccesfullyDeleted"] = "s";
+        //    return RedirectToAction("ListPersons");
+        //}
+
+        //public ActionResult DeletePerson(string id)
+        //{
+        //    Person.DeletePerson(id);
+        //    TempData["SuccesfullyDeleted"] = "s";
+        //    return RedirectToAction("Listpersons");
+
+        //}
 
         public ActionResult DeletePerson(string id)
         {
-            var getPerson = Person.GetPersonDetail(id);
-            return View(getPerson);
+
+            Person.DeletePerson(id);
+            TempData["SuccesfullyDeleted"] = "s";
+            return RedirectToAction("ListPersons");
         }
 
        
@@ -106,6 +136,12 @@ namespace MvcMorning.Controllers
         {
             var getPerson = Person.GetPersonDetail(id);
             return View(getPerson);
+        }
+
+        public ActionResult DetailPersons(string id)
+        {
+            var getPersonDetail = Person.GetPersonDetail(id);
+            return View(getPersonDetail);
         }
 
         [HttpPost]

@@ -12,38 +12,51 @@
             <h3 class="alert alert-success">Succesfully Saved</h3>
         </div>
     }
-    @if (TempData["SuccesfullyDeleted"] != null)
-    {
-        <div class="col-md-4">
-            <h3 class="alert alert-success">Succesfully Deleted</h3>
-        </div>
-    }
+    @*@if (TempData["SuccesfullyDeleted"] != null)
+        {
+            <div class="col-md-4">
+                <h3 class="alert alert-success">Succesfully Deleted</h3>
+            </div>
+        }*@
     @if (TempData["SuccesfullyUpdated"] != null)
     {
         <div class="col-md-4">
             <h3 class="alert alert-success">Succesfully Updated</h3>
         </div>
     }
+    @if (TempData["SuccesfullyDeleted"] != null)
+    {
+        <div class="col-md-4">
+            <h3 class="alert alert-danger">Succesfully Deleted</h3>
+        </div>
+    }
 </div>
-<form method="get">
+<form>
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-3">
-                <input type="text" class="form-control" name="personName" placeholder="Search Name" @*value="@Request.QueryString["personName"]"*@ />
+                <input type="text" value="@Request.QueryString["personName"]" class="form-control" name="personName" placeholder="Search By Name" />
             </div>
-
-            <div class="col-md-2">
-              <button type="submit" class="btn btn-primary" ><span class="glyphicon glyphicon-search"></span> Search</button>
+            <div class="col-md-3">
+                <input type="text" value="@Request.QueryString["phone"]" class="form-control" name="phone" placeholder="Search By Phone" />
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-search"></span></button>
             </div>
         </div>
     </div>
 </form>
 <br />
-    <p>
-        @Html.ActionLink("Create New", "CreatePersons",null,new { @class = "btn btn-primary btn-xs" })
-    </p>
+<p>
+    @Html.ActionLink("Create New", "CreatePersons", null, new { @class = "btn btn-primary btn-xs" })
+</p>
+@if (Model.Count() > 0)
+{
     <table class="table">
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -61,25 +74,35 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Addres)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.ActionLink("-", "UpdatePerson", new { id = item.Id }, new { @class = "glyphicon glyphicon-edit btn btn-warning btn-xs" }) |
-                    @Html.ActionLink("-", "Details", new { id = item.Id }, new { @class = "glyphicon glyphicon-search btn btn-success btn-xs" }) |
-                    @Html.ActionLink("-", "DeletePerson", new { id = item.Id }, new { @class = "glyphicon glyphicon-trash btn btn-danger btn-xs" })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                <img src="~/Person/GetImage/@item.Id" class="img-circle" width="25" height="30" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Addres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.ActionLink("-", "UpdatePerson", new { id = item.Id }, new { @class = "glyphicon glyphicon-edit btn btn-warning btn-xs" }) |
+                @Html.ActionLink("-", "DetailPersons", new { id = item.Id }, new { @class = "glyphicon glyphicon-search btn btn-success btn-xs" }) |
+                @Html.ActionLink("-", "DeletePerson", new { id = item.Id }, new { @class = "glyphicon glyphicon-trash btn btn-danger btn-xs" })
+            </td>
+        </tr>
         }
-
+        
+        
+      
     </table>
+        }
+        else {
+        <h3 class="alert alert-danger">There is no data</h3>
+
+        }

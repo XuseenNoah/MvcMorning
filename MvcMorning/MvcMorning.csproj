@@ -179,6 +179,7 @@
     <Content Include="Views\Person\UpdatePerson.cshtml" />
     <Content Include="Views\Person\DeletePerson.cshtml" />
     <Content Include="Views\Authenticate\Login.cshtml" />
+    <Content Include="Views\Person\DetailPersons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

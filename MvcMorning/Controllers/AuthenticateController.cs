@@ -36,5 +36,12 @@ namespace MvcMorning.Controllers
             }
             return View(login);
         }
+
+        public ActionResult Logout()
+        {
+            Session["User"] = null;
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
+        }
     }
 }
