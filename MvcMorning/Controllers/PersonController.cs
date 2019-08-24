@@ -1,4 +1,5 @@
-﻿using MvcMorning.Models;
+﻿using MvcMorning.Helpers;
+using MvcMorning.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 
 namespace MvcMorning.Controllers
 {
+    [Authorize]
     public class PersonController : Controller
     {
         // GET: Person
@@ -58,10 +60,18 @@ namespace MvcMorning.Controllers
         //    return View();
         //}
 
+        [HandleError]
 
+        // [AllowAnonymous]
+        [PermisionRequired(LoginEnter.Permissions.Add)]
         public ActionResult CreatePersons()
         {
             return View();
+        }
+        [OutputCache(Duration =10)]
+        public string GetDAtes()
+        {
+            return DateTime.Now.ToString();
         }
 
         [HttpPost]

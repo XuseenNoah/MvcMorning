@@ -38,4 +38,32 @@ namespace MvcMorning.Models
             }
         }
     }
+
+    public class LoginEnter
+    {
+        [Required(ErrorMessage = "Enter your Username")]
+
+        public string Username { get; set; }
+        [Required(ErrorMessage = "Enter Tour Password"), DataType(DataType.Password)]
+        public string Password { get; set; }
+        public string HashedPassword(string Password)
+        {
+#pragma warning disable 618
+            return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(Password, "SHA1");
+#pragma warning restore 618
+        }
+        public int Branch { get; set; }
+        public Permissions CurrentPermissions { get; set; }
+        public enum Permissions
+        {
+            None = 0,
+            Update = 1 << 0,
+            Delete = 1 << 1,
+            Add = 1 << 2,
+            View = 1 << 3 | Add,
+            Super = (Update | View),
+            Admin = (Update | Delete | Add | View)
+        }
+        public string UserType { get; set; }
+    }
 }
